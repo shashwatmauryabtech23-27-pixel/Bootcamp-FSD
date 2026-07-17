@@ -26,3 +26,7 @@ if (height >= 100) {
 } else {
     console.log("Your Height is not sufficient. Not Eligible");
 }
+
+
+
+console.log("this is unnecesary code");
