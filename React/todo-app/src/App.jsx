@@ -1,173 +1,96 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./Navbar";
+
+const STORAGE_KEY = "bootcamp-fsd-todos";
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [todos, setTodos] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? []; }
+    catch { return []; }
+  });
+  const [title, setTitle] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  useEffect(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(todos)), [todos]);
+
+  const visibleTodos = useMemo(() => {
+    if (filter === "active") return todos.filter((todo) => !todo.completed);
+    if (filter === "completed") return todos.filter((todo) => todo.completed);
+    return todos;
+  }, [filter, todos]);
+
+  const remaining = todos.filter((todo) => !todo.completed).length;
+
+  function addTodo(event) {
+    event.preventDefault();
+    const text = title.trim();
+    if (!text) return;
+    setTodos((current) => [
+      { id: crypto.randomUUID(), title: text, completed: false },
+      ...current,
+    ]);
+    setTitle("");
+  }
+
+  const toggleTodo = (id) => setTodos((current) => current.map((todo) =>
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+  const deleteTodo = (id) => setTodos((current) => current.filter((todo) => todo.id !== id));
+  const clearCompleted = () => setTodos((current) => current.filter((todo) => !todo.completed));
 
   return (
-    <>
-      {/* Bootstrap Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-        <div className="container">
-          <a className="navbar-brand fw-bold" href="#">
-            React + Vite
-          </a>
+    <div className="app-shell" id="top">
+      <Navbar />
+      <main className="todo-container">
+        <section className="hero-section">
+          <p className="eyebrow">Plan your day</p>
+          <h1>Stay focused. Get things done.</h1>
+          <p>Add tasks, mark them complete, and keep your day organised.</p>
+        </section>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        <section className="todo-card">
+          <form className="todo-form" onSubmit={addTodo}>
+            <label className="sr-only" htmlFor="new-todo">New task</label>
+            <input id="new-todo" value={title} onChange={(event) => setTitle(event.target.value)}
+              placeholder="What do you need to do?" autoComplete="off" />
+            <button type="submit">Add task</button>
+          </form>
 
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link active" href="#center">
-                  Home
-                </a>
-              </li>
+          <div className="todo-toolbar">
+            <span>{remaining} task{remaining === 1 ? "" : "s"} remaining</span>
+            <div className="filters" aria-label="Filter tasks">
+              {["all", "active", "completed"].map((item) => (
+                <button key={item} type="button" className={filter === item ? "active" : ""}
+                  onClick={() => setFilter(item)}>{item}</button>
+              ))}
+            </div>
+          </div>
 
-              <li className="nav-item">
-                <a className="nav-link" href="#docs">
-                  Docs
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link" href="#social">
-                  Community
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link" href="#next-steps">
-                  Learn
-                </a>
-              </li>
+          {visibleTodos.length === 0 ? (
+            <div className="empty-state">
+              <span aria-hidden="true">✓</span><h2>No tasks here</h2>
+              <p>Add a task or choose another filter.</p>
+            </div>
+          ) : (
+            <ul className="todo-list">
+              {visibleTodos.map((todo) => (
+                <li key={todo.id} className={todo.completed ? "completed" : ""}>
+                  <input type="checkbox" checked={todo.completed} onChange={() => toggleTodo(todo.id)}
+                    aria-label={`Mark ${todo.title} as ${todo.completed ? "active" : "completed"}`} />
+                  <span>{todo.title}</span>
+                  <button type="button" className="delete-button" onClick={() => deleteTodo(todo.id)}
+                    aria-label={`Delete ${todo.title}`}>Delete</button>
+                </li>
+              ))}
             </ul>
-          </div>
-        </div>
-      </nav>
+          )}
 
-      {/* Hero Section */}
-      <section id="center" className="container text-center py-5">
-        <div className="hero mb-4">
-          <img
-            src={heroImg}
-            className="base"
-            width="170"
-            height="179"
-            alt=""
-          />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-
-        <h1 className="display-4 fw-bold">Get Started</h1>
-
-        <p className="lead">
-          Edit <code>src/App.jsx</code> and save to test <code>HMR</code>.
-        </p>
-
-        <button
-          className="btn btn-primary btn-lg"
-          onClick={() => setCount(count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <hr />
-
-      {/* Next Steps */}
-      <section id="next-steps" className="container py-5">
-        <div className="row">
-
-          {/* Docs */}
-          <div className="col-md-6 mb-4" id="docs">
-            <div className="card shadow h-100">
-              <div className="card-body">
-                <h2>📘 Documentation</h2>
-                <p>Your questions, answered.</p>
-
-                <a
-                  href="https://vite.dev/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-success me-2"
-                >
-                  Explore Vite
-                </a>
-
-                <a
-                  href="https://react.dev/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-info"
-                >
-                  Learn React
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Community */}
-          <div className="col-md-6 mb-4" id="social">
-            <div className="card shadow h-100">
-              <div className="card-body">
-                <h2>🌍 Community</h2>
-                <p>Connect with the Vite community.</p>
-
-                <div className="d-flex flex-wrap gap-2">
-                  <a
-                    href="https://github.com/vitejs/vite"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-dark"
-                  >
-                    GitHub
-                  </a>
-
-                  <a
-                    href="https://chat.vite.dev/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary"
-                  >
-                    Discord
-                  </a>
-
-                  <a
-                    href="https://x.com/vite_js"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-secondary"
-                  >
-                    X
-                  </a>
-
-                  <a
-                    href="https://bsky.app/profile/vite.dev"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-info"
-                  >
-                    Bluesky
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-    </>
+          {todos.some((todo) => todo.completed) && (
+            <button type="button" className="clear-button" onClick={clearCompleted}>Clear completed tasks</button>
+          )}
+        </section>
+      </main>
+    </div>
   );
 }
 
