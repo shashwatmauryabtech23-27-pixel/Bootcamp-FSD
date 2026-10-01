@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box-Model</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
+            background-image: url('image/nature.png');
+            
+            font-family: Arial, sans-serif;
+            background-position: center;
+            margin: 40px;
+            background-size: cover;
+            color: #ffffff;
+            height : 100vh;
+            width : 100vw;
+           
+        }
+        #box {
+            background-color: rgba(0, 0, 0, 0.55);
+            padding: 40px;
+            border-radius: 12px;
+            width: 700px;
+            margin: 100px auto;
+            position:relative;
+            z-index: 1;
+            text-align: center;
+        }
+        .inner-box {
+            background-color: #ffffff;
+            padding: 25px;
+            margin: 30px auto 0;
+            border-radius: 10px;
+            width: 80%;
+            z-index: 2;
+            color: #333;
+        }
+       
+        .info {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            left: 0;
+            color: white;
+            font-size: 16px;
+            z-index: 3;
+            text-align: center;
+        }
+    </style>
+</head>
+<body >
+    <div id="box">
+        <h1 style="color: white; font-size: 47px; margin-bottom: 10px;">Nature is Beautiful</h1>
+        <p style="color: #e0e0e0; font-size: 20px; margin-top: 10px;">Enjoy the peaceful beauty of nature.</p>
+        <div class="inner-box">
+            <h2>Why I Love Nature</h2>
+            <p>Spending time in nature refreshes <br>my mind and makes me happy</p>
+        </div>
+    </div>
+    <footer class="info">&copy; 2024 My Favourite Place</footer>
+</body>
+</html>
