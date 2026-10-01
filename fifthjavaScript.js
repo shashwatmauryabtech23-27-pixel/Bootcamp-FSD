@@ -1,9 +1,0 @@
-let ele = document.getElementById("heading1");
-ele.style.color = "blue";
-ele.style.backgroundColor = "yellow";
-let ele2 = document.getElementById("heading2");
-ele2.style.color = "green";
-ele2.style.backgroundColor = "orange";
-let ele3 = document.getElementById("heading3");
-ele3.style.color = "red";
-ele3.style.backgroundColor = "pink";
