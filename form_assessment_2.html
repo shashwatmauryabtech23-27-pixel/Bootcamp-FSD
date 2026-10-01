@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Online Order Form</title>
+    <link rel="icon" type="image/png" href="C:\Users\Shashwat Maurya\OneDrive\Desktop\Bootcamp-FSD\favicon_io\favicon-32x32.png">
+</head>
+<body bgcolor="pink">
+
+  <CENTER>
+    <H1>WELCOME TO SWADESHI CO.PVT.LTD.</H1>
+    <h5>PLEASE FILL THE ORDER FORM:</h5>
+  </CENTER>
+  <form>
+	NAME &emsp;&emsp;&emsp;&nbsp;&nbsp;<input type="text"><br><br>
+	EMAIL ID &emsp;&emsp;<input type="email"><br><br>
+	CONTACT NO. <input type="text" maxlength=10><br><br>
+	PINCODE &emsp;&emsp;&nbsp;<input type="number"><br><br><br>
+
+	<table border="2" cellpadding="4" cellspacing="2">
+		<tr ><th>PRODUCT_NAME</th><th>PRODUCT_ID</th><th >QUANTITY</th><th>UNIT PRICE</th><th>TOTAL</th></tr>
+		<tr><td>KURTA_PYJAMA</td><td>KP</td><td><input type="number"></td><td>Rs 1500</td><td><input type="text" value="Rs." size=25></td></tr>
+		<tr><td>BLAZER</td><td>BLZ</td><td><input type="number"></td><td>Rs 3300</td><td><input type="text" value="Rs."  size=25></td></tr>
+		<tr><td>SWEATSHIRT</td><td>SWT</td><td><input type="number"></td><td>Rs 899</td><td><input type="text" value="Rs."  size=25></td></tr>
+		<tr><td>NEHRU_JACKET</td><td>NHJ</td><td><input type="number"></td><td>Rs 1200</td><td><input type="text" value="Rs."  size=25></td></tr>
+		<tr><td>SHIRT</td><td>SHIRT</td><td><input type="number"></td><td>Rs 599</td><td><input type="text" value="Rs."  size=25></td></tr>
+		<tr><td>TROUSER</td><td>TRU</td><td><input type="number"></td><td>Rs 1299</td><td><input type="text" value="Rs."  size=25></td></tr>
+		<tr><td colspan="4">GRAND_TOTAL</td><td><input type="text" value="Rs."  size=25></td></tr>
+	</table><br>
+
+	<h3>CREDIT/DEBIT CARD DETAILS</h3><br><br>
+	CARD TYPE:<br><br>
+	<input type="radio" value="master card" name="card" checked>MASTER CARD       &emsp;&emsp;&emsp;&ensp;&ensp;&nbsp; CARD NUMBER &nbsp <input type="text"><br>
+	<input type="radio" value="visa card" name="card">VISA CARD<br>
+	<input type="radio" value="american express" name="card">AMERICAN EXPRESS       &emsp;&ensp; EXPIRY DATE &emsp;&ensp;<input type="text" size=6 value="MM/YY"><br>
+	<input type="radio" value="rupay card" name="card">RUPAY CARD<br>
+	<input type="radio" value="other" name="card">OTHER CARD                     &emsp;&emsp;&emsp;&emsp;&emsp;   CVV NUMBER &emsp; <input type="password" maxlength=3 size=6><br>
+
+	<h3>DELIVERY ADDRESS:</h3>
+	<textarea></textarea><br><br>
+	
+	<button>SEND ORDER</button>&nbsp;<button type="reset">CLEAR FORM</button>
+
+  </form>
+</body>
+</html>
